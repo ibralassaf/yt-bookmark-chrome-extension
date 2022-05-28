@@ -10,6 +10,15 @@
         if (type === "NEW") { //if it has type new it will set the current video to the video id 
             currentVideo = videoId;
             newVideoLoaded();
+        } else if (type === "PLAY") {
+            youtubePlayer.currentTime = value; //if it has type play it will set the current time to the value
+        } else if (type === "DELETE") {
+            currentVideoBookmarks = currentVideoBookmarks.filter((b) => b.time !== value); //if it has type delete it will filter the current video bookmarks and remove the bookmark with the value
+            chrome.storage.sync.set({
+                [currentVideo]: JSON.stringify(currentVideoBookmarks)
+            }); //set the current video bookmarks to the current video bookmarks
+
+            response(currentVideoBookmarks); //send the current video bookmarks back to the popup
         }
     });
 
